@@ -3,9 +3,9 @@ $("document").ready(function() {
     $("body").addClass("page_width");
 	$('nav ul').addClass('navigation_bar');
 	$('nav ul li').addClass('menu').hover(function () {
-        $(this).css({"background": "black", "textShadow": "white 2px 2px 5px"});
+        $(this).toggleClass("menu_hover");
     }, function () {
-        $(this).css({"background": "#0501D5", "textShadow": "none"});
+       $(this).toggleClass("menu_hover");
     }).click(function () {
         $(this).animate(
             {zIndex: "-10", top: "65px", lineHeight: "60px"}, 1500, "linear", function () {
@@ -30,14 +30,14 @@ $("document").ready(function() {
     }).addClass('picture');
 
     $("nav + section article").hover(function () {
-        $(this).children("span").css({"display": "inline-block"});
-        $(this).children("figure").children("figcaption").css({"display": "inline-block"});
+        $(this).children("span").toggleClass("visible");
+        $(this).children("figure").children("figcaption").toggleClass("visible");
     }, function () {
-        $(this).children("span").css({"display": "none"});
-        $(this).children("figure").children("figcaption").css({"display": "none"});
+        $(this).children("span").toggleClass("visible");
+        $(this).children("figure").children("figcaption").toggleClass("visible");
     }).click( function () {
-        $("img").css({border: "double 9px #0501D5", opacity: "0.5"});
-        $(this).children("figure").children("img").css({border: "solid yellow 10px", opacity: "1"});
+        $("img").addClass("menu_select").removeClass("menu_out");
+        $(this).children("figure").children("img").addClass("menu_out");
     });
     $("nav + section li").eq(3).addClass("plus_margin reset product");
 
@@ -69,7 +69,7 @@ $("document").ready(function() {
 
     $("section:last").append("<script src=\"http://vjs.zencdn.net/5.4.6/video.js\"></script>");
     
-    $("#Length").on("keyup", function (e) {
+    $("#Length").on("keyup", function () {
         if( ! isNaN($("#Length").val()) && $("#Length").val() !== "") {
             $("form h1").text("Initial price: " + $("#Length").val() * 12345 + " €");
         } else {
@@ -77,4 +77,21 @@ $("document").ready(function() {
         }
     });
 
+    $("footer ul").append("<li></li>").children().append("<div></div>");
+    $("footer li").addClass("no_display");
+    $("footer li:first").attr({
+        itemscope : "",
+        itemtype : "https://schema.org/Corporation"
+    }).addClass("microdata");
+    //$("footer li:first").text("");
+    insertMicrodata($("footer li:first div"), "span", "name", "SeaMaster");
+    insertMicrodata($("footer li:first div"), "span", "address", "C/ False, 123, Madrid, Spain");
+    insertMicrodata($("footer li:first div"), "span", "telephone", "+34666000666");
+    insertMicrodata($("footer li:first div"), "span", "email", "admin@ship.com");
 });
+
+function insertMicrodata(element, tag, attribute, value) {
+    $("<" + tag + ">" + value + "</" + tag + ">").appendTo(element).attr({
+        itemprop: attribute
+    });
+}
