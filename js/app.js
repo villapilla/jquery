@@ -2,17 +2,17 @@
 /*global $, jQuery*/
 'use strict';
 
-var globals = function (ns) {
-    ns.insertMicrodata = function (element, tag, attribute, value) {
+var globals = (function(ns) {
+    ns.insertMicrodata = function(element, tag, attribute, value) {
         $("<" + tag + ">" + value + "</" + tag + ">").appendTo(element).attr({
             itemprop: attribute
         });
     };
-    ns.removeFirstLetter = function (element) {
+    ns.removeFirstLetter = function(element) {
         return element.text().substr(1, element.text().length - 1);
     };
     return ns;
-}({});
+}({}));
 
 
 $("document").ready(function () {
@@ -23,19 +23,19 @@ $("document").ready(function () {
         $(this).toggleClass("menu_hover");
     }, function () {
         $(this).toggleClass("menu_hover");
-    }).click(function () {
+    }).click(function() {
         $(this).animate({
             zIndex: "-10",
             top: "65px",
             lineHeight: "60px"
-        }, 1500, "linear", function () {
+        }, 1500, "linear", function() {
             $(this).animate({
                 opacity: "0"
-            }, 2000, "swing", function () {
+            }, 2000, "swing", function() {
                 $(this).animate({
                     top: "-130px",
                     lineHeight: "120px"
-                }, 100, "linear", function () {
+                }, 100, "linear", function() {
                     $(this).animate({
                         zIndex: "0",
                         top: "-30px",
@@ -48,30 +48,30 @@ $("document").ready(function () {
     $('nav + section').addClass('content');
     $("nav + section article").
         append("<span></span>").
-    addClass("pos_relative");
+        addClass("pos_relative");
     $('nav + section h1').addClass('title');
     $('nav + section li').addClass('product');
     $('nav + section li h2').addClass('no_display');
     $('nav + section li figcaption').addClass('no_display name');
-    $('nav + section li span').each(function (index, element) {
+    $('nav + section li span').each(function(index, element) {
         $(element).text($(element).parent().data("price") + " €");
     }).addClass("price no_display");
-    $("img").each(function (index, element) {
+    $("img").each(function(index, element) {
         $(element).attr("alt", "Embarcación " +
-        (index + 1) + " de " + $("img").length + "(" +
-        $(this).next().text() + ")");
+            (index + 1) + " de " + $("img").length + "(" +
+            $(this).next().text() + ")");
     }).addClass('picture');
-    $("nav + section article").hover(function () {
+    $("nav + section article").hover(function() {
         $(this).children("span").toggleClass("visible");
         $(this).children("figure").
         children("figcaption").
         toggleClass("visible");
-    }, function () {
+    }, function() {
         $(this).children("span").toggleClass("visible");
         $(this).children("figure").
         children("figcaption").
         toggleClass("visible");
-    }).click(function () {
+    }).click(function() {
         $("img").addClass("menu_select").removeClass("menu_out");
         $(this).children("figure").children("img").addClass("menu_out");
     });
@@ -98,15 +98,15 @@ $("document").ready(function () {
     }).addClass("video-js vjs-default-skin centered").attr("data-setup", "{}");
     $("section:last").append("<script src=" +
         "\"http://vjs.zencdn.net/5.4.6/video.js\"></script>");
-    $("#Length").on("keyup", function () {
+    $("#Length").on("keyup", function() {
         if (!isNaN($("#Length").val()) && $("#Length").val() !== "") {
             $("form h1").text("Initial price: " +
-                $("#Length").val() * 12345 + " €");
+            $("#Length").val() * 12345 + " €");
         } else {
             $("form h1").text("");
         }
     });
-    $("footer li").each(function () {
+    $("footer li").each(function() {
         $(this).text(globals.removeFirstLetter($(this)));
     });
     $("footer ul").append("<li></li>").children().append("<div></div>");
@@ -120,9 +120,9 @@ $("document").ready(function () {
         itemtype: "https://schema.org/Person"
     }).text("Author").append("<div></div>");
     globals.insertMicrodata($("footer li:first div"), "span", "name",
-        "seaMaster");
+        "SeaMaster");
     globals.insertMicrodata($("footer li:first div"), "span", "address",
-        "c/ false, 123, vigo, spain");
+        "C/ False, 123, vigo, spain");
     globals.insertMicrodata($("footer li:first div"), "span", "telephone",
         "+34666000666");
     globals.insertMicrodata($("footer li:first div"), "span", "email",
